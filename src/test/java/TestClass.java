@@ -1,0 +1,83 @@
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+
+@RunWith(MockitoJUnitRunner.class)
+public class TestClass {
+    private static final double delta = 0.000001;
+
+    private Health health;
+
+    @Before
+    public void setUp() {
+        health = new Health(3000, 2.0, 120, 3000);
+    }
+
+    @Test
+    public void testEatKcal() {
+        health.eatKcal(1000);
+        int currentKcal = (int) health.getCurrentResult().getCertainInfo(0);
+        assertEquals(1000, currentKcal);
+    }
+
+    @Test
+    public void testDrinkLiters() {
+        health.drinkLiters(1.0);
+        double currentLiters = health.getCurrentResult().getCertainInfo(1);
+        assertEquals(1.0, currentLiters, delta);
+    }
+
+    @Test
+    public void testGoTime() {
+        health.goTime(30);
+        int currentTime = (int) health.getCurrentResult().getCertainInfo(2);
+        assertEquals(30, currentTime, delta);
+    }
+
+    @Test
+    public void testGoSteps() {
+        health.goSteps(2000);
+        int currentSteps = (int) health.getCurrentResult().getCertainInfo(3);
+        assertEquals(2000, currentSteps, delta);
+    }
+
+    @Test
+    public void testKcalLeft() {
+        health.eatKcal(1000);
+        int kcalLeft = health.kcalLeft();
+        assertEquals(2000, kcalLeft);
+    }
+
+    @Test
+    public void testLitersLeft() {
+        health.drinkLiters(1.0);
+        double litersLeft = health.litersLeft();
+        assertEquals(1.0, litersLeft, delta);
+    }
+
+    @Test
+    public void testTimeLeft() {
+        health.goTime(60);
+        int timeLeft = health.timeLeft();
+        assertEquals(60, timeLeft);
+    }
+
+    @Test
+    public void testStepsLeft() {
+        health.goSteps(1000);
+        int stepsLeft = health.stepsLeft();
+        assertEquals(2000, stepsLeft);
+    }
+
+}
