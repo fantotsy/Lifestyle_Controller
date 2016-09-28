@@ -27,19 +27,19 @@ public class Health {
         return history;
     }
 
-    public int getKcal() {
+    public int getMinKcal() {
         return minKcal;
     }
 
-    public double getLiters() {
+    public double getMinLiters() {
         return minLiters;
     }
 
-    public int getTime() {
+    public int getMinTime() {
         return minTime;
     }
 
-    public int getSteps() {
+    public int getMinSteps() {
         return minSteps;
     }
 
@@ -100,6 +100,10 @@ public class Health {
         Date today = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         return dateFormat.format(today);
+    }
+
+    public int getPercentage(double minimum, double actual) {
+        return (int) ((actual * 100) / minimum);
     }
 
 }

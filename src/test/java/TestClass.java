@@ -80,4 +80,11 @@ public class TestClass {
         assertEquals(2000, stepsLeft);
     }
 
+    @Test
+    public void testPercentage() {
+        health.eatKcal(1500);
+        int actualKcal = (int) health.getCurrentResult().getCertainInfo(0);
+        int percentage = health.getPercentage(health.getMinKcal(), actualKcal);
+        assertEquals(50, percentage);
+    }
 }
