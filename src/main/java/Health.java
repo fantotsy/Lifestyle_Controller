@@ -138,4 +138,22 @@ public class Health {
         }
     }
 
+    public int[] dayReport() {
+        int[] percentagesForEachIndex = new int[4];
+        percentagesForEachIndex[0] = getPercentage(minKcal, getCurrentResult().getCertainInfo(0));
+        percentagesForEachIndex[1] = getPercentage(minLiters, getCurrentResult().getCertainInfo(1));
+        percentagesForEachIndex[2] = getPercentage(minTime, getCurrentResult().getCertainInfo(2));
+        percentagesForEachIndex[3] = getPercentage(minSteps, getCurrentResult().getCertainInfo(3));
+        return percentagesForEachIndex;
+    }
+
+    public double[] periodReport(String firstDate, String secondDate) {
+        double[] mediansForEachIndex = new double[4];
+        List<Result> results = getPeriod(firstDate, secondDate);
+        mediansForEachIndex[0] = getMedian(0, results);
+        mediansForEachIndex[1] = getMedian(1, results);
+        mediansForEachIndex[2] = getMedian(2, results);
+        mediansForEachIndex[3] = getMedian(3, results);
+        return mediansForEachIndex;
+    }
 }
