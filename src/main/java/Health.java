@@ -1,7 +1,5 @@
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Health {
     private int minKcal;
@@ -104,6 +102,40 @@ public class Health {
 
     public int getPercentage(double minimum, double actual) {
         return (int) ((actual * 100) / minimum);
+    }
+
+    public List<Result> getPeriod(String firstDate, String lastDate) {
+        List<Result> result = new ArrayList<Result>();
+        String date = firstDate;
+        if (history.containsKey(firstDate) && history.containsKey(lastDate)) {
+            do {
+                result.add(history.get(date));
+                date = DateOperations.getNextDate(date);
+            } while (!date.equals(lastDate));
+        } else {
+            throw new IllegalArgumentException();
+        }
+        return result;
+    }
+
+    public double getMedian(int position, List<Result> results) {
+        int amountOfValues = results.size();
+        List<Double> investigatedValues = new ArrayList<Double>();
+        for (Result result : results) {
+            investigatedValues.add(result.getCertainInfo(position));
+        }
+        Collections.sort(investigatedValues, new Comparator<Double>() {
+            public int compare(Double value1, Double value2) {
+                return value1.compareTo(value2);
+            }
+        });
+        if (amountOfValues % 2 != 0) {
+            return investigatedValues.get(amountOfValues / 2);
+        } else {
+            double firstValue = investigatedValues.get((amountOfValues / 2) - 1);
+            double secondValue = investigatedValues.get(amountOfValues / 2);
+            return ((firstValue + secondValue) / 2);
+        }
     }
 
 }

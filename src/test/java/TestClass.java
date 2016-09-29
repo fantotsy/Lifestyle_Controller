@@ -7,10 +7,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -86,5 +88,38 @@ public class TestClass {
         int actualKcal = (int) health.getCurrentResult().getCertainInfo(0);
         int percentage = health.getPercentage(health.getMinKcal(), actualKcal);
         assertEquals(50, percentage);
+    }
+
+    @Test
+    public void testWeekMedian() {
+        List<Result> weekResults = new ArrayList<Result>();
+        for (int i = 0; i < 7; i++) {
+            Result result = new Result();
+            result.increaseCertainInfo(0, 1000 * i);
+            weekResults.add(result);
+        }
+        String date = "2016.09.29";
+        for (Result result : weekResults) {
+            System.out.println(date);
+            health.getHistory().put(date, result);
+            date = DateOperations.getNextDate(date);
+        }
+        assertEquals(3000, health.getMedian(0, weekResults), delta);
+    }
+
+    @Test
+    public void testGetNextDate() {
+        String date = "2017.03.01";
+        assertTrue(date.equals(DateOperations.getNextDate("2017.02.28")));
+    }
+
+    @Test
+    public void testNotLeapYear() {
+        assertEquals(false, DateOperations.isLeapYear(2017));
+    }
+
+    @Test
+    public void testLeapYear() {
+        assertEquals(true, DateOperations.isLeapYear(2020));
     }
 }
