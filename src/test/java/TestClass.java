@@ -100,7 +100,6 @@ public class TestClass {
         }
         String date = "2016.09.29";
         for (Result result : weekResults) {
-            System.out.println(date);
             health.getHistory().put(date, result);
             date = DateOperations.getNextDate(date);
         }
